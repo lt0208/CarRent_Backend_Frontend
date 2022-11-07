@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import AuthService from '../services/AuthService';
+import { Link } from 'react-router-dom';
 
 const Headers = () => {
   const [user, setUser] = useState(undefined);
@@ -7,7 +8,7 @@ const Headers = () => {
   const [isManager, setIsManager] = useState(false);
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser(); // this user is not the user in state
+    const user = AuthService.getCurrentUser(); // this is a const value, obtain the user obj immedaitely, faster than the user in state
     if (user) {
       setUser(user);
       setIsCustomer(user.roles.includes('CUSTOMER') || user.roles.includes('ROLE_CUSTOMER'))
@@ -49,6 +50,13 @@ const Headers = () => {
           {user && (<li className="nav-item">
             <a className="nav-link" href="/logout">Logout</a>
           </li>)}
+
+          {!user && (
+            <li className='nav-item'>
+              <Link  className="nav-link" to="/signup">Sign Up</Link>
+
+            </li>
+          )}
 
         </ul>
       </div>

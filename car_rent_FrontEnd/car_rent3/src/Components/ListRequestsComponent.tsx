@@ -69,30 +69,51 @@ const ListRequestsComponent = (props: any) => {
                                             <td>
                                                 {props.isCustomer && request.status === "APPROVED" &&
                                                     <button className='btn btn-success' onClick={() => {
-                                                        if (request.id) { changeStatus(request.id, 4) }
+                                                        if (request.id) { 
+                                                            if(window.confirm("Are you sure to return the car?")){
+                                                                changeStatus(request.id, 4)
+                                                            }
+                                                             }
                                                     }}>Return Car</button>}
 
                                                 {props.isCustomer && request.status === "SUBMITTED" &&
                                                     <button className='btn btn-warning' onClick={() => {
-                                                        if (request.id) { changeStatus(request.id, 2) }
+                                                        if (request.id) { 
+                                                            if(window.confirm("Are you sure to cancel the order?")){
+                                                                changeStatus(request.id, 2) 
+                                                            }
+                                                            }
                                                     }}>Cancel Car</button>}
 
                                                 {!props.isCustomer && request.status === "APPROVED" &&
                                                     <button className='btn btn-primary' onClick={() => {
-                                                        if (request.id) { changeStatus(request.id, 4) }
+                                                        if (request.id) { 
+                                                            if (window.confirm("Are you sure the rental is done and return car for the customer?")){
+                                                                changeStatus(request.id, 4)
+                                                            }
+                                                         }
+                                                        
                                                     }}>Return (For Customer)</button>}
 
                                                 {!props.isCustomer  &&
-                                                    <Link className='btn btn-info' to={`/request-detail/${request.id}`} >Detail</Link>}
+                                                    <Link className='btn btn-info' to={`/request-detail/${request.id}`} >View</Link>}
 
                                                 {!props.isCustomer && request.status === "SUBMITTED" &&
-                                                    <button className='btn btn-primary' onClick={() => {
-                                                        if (request.id) { changeStatus(request.id, 1) }
+                                                    <button className='btn btn-success' onClick={() => {
+                                                        if (request.id) { 
+                                                            if(window.confirm("Are you sure to approve the request?")){
+                                                                changeStatus(request.id, 1)
+                                                            }
+                                                             }
                                                     }}>Approve</button>}
 
                                                 {!props.isCustomer && request.status === "SUBMITTED" &&
                                                     <button className='btn btn-warning' onClick={() => {
-                                                        if (request.id) { changeStatus(request.id, 3) }
+                                                        if (request.id) { 
+                                                            if(window.confirm("Are you sure to deny the request?")){
+                                                                changeStatus(request.id, 3)
+                                                            }
+                                                             }
                                                     }}>Deny</button>}
 
                                             </td>

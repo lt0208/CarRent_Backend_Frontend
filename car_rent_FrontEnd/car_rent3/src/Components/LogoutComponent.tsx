@@ -8,7 +8,7 @@ const LogoutComponent = () => {
     //window.alert("You have logged out!")
     navigate("/");
 
-    //window.location.reload();
+    window.location.reload();
   },[]);
   return (
     <div>You have logged out!</div>

@@ -1,16 +1,9 @@
 import axios from "axios";
+import Car,{RegisterPayload} from "../Components/Interfaces";
+
+
+
 const AUTH_REST_API_URL = "http://localhost:8080/auth";
-
-interface RegisterPayload {
-    username: String,
-    password: String,
-    email: String,
-    firstname?: String,
-    lastname?: String,
-    credit?: number,
-    role: String
-}
-
 class AuthService {
 
     signin = (username: String, password: String) => {

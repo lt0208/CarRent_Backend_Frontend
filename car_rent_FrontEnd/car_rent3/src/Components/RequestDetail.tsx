@@ -34,9 +34,9 @@ const RequestDetail = () => {
         credit: 0
     })
 
-    
+
     const changeStatus = (requestId: number, statusId: number) => {
-       
+
         RequestService.handleRequest(requestId, statusId).then(
             (Response: any) => {
                 //navigate("/");
@@ -150,12 +150,22 @@ const RequestDetail = () => {
                     if (requestObj.id) { changeStatus(requestObj.id, 1) }
                 }}>Approve</button>}
 
-            { requestObj.status === "SUBMITTED" &&
+            {requestObj.status === "SUBMITTED" &&
                 <button className='btn btn-warning' onClick={() => {
                     if (requestObj.id) { changeStatus(requestObj.id, 3) }
                 }}>Deny</button>}
 
-            <Link className='btn btn-primary' to="/all-requests">Return to All Requests</Link>
+            {requestObj.status === "APPROVED" &&
+                <button className='btn btn-primary' onClick={() => {
+                    if (requestObj.id) { 
+                        if (window.confirm("Are you sure the rent is done and return car for the customer?")){
+                            changeStatus(requestObj.id, 4)
+                        }
+                         
+                    }
+                }}>Return (For Customer)</button>}
+
+            <Link className='btn btn-secondary' to="/all-requests">Return to All Requests</Link>
 
 
         </div>

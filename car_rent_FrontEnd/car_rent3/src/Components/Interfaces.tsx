@@ -25,6 +25,16 @@ export interface CustomerInfo{
     credit:number
 }
 
+export interface RegisterPayload {
+    username: string,
+    password: string,
+    email: string,
+    firstname?: string,
+    lastname?: string,
+    credit?: number,
+    role: string
+}
+
 export interface Request{
     id: number,
     status: string,

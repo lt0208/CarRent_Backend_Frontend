@@ -8,9 +8,11 @@ import com.example.CarRental.Repository.CustomerRepo;
 import com.example.CarRental.Repository.ManagerRepo;
 import com.example.CarRental.Security.JWT.JwtUtils;
 import com.example.CarRental.Security.Service.UserDetailsImp;
+import com.example.CarRental.Service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,22 +32,16 @@ import java.util.stream.Collectors;
 public class AuthenticationController {
     Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
     @Autowired
-    CustomerRepo customerRepo;
-
-    @Autowired
-    ManagerRepo managerRepo;
+    CustomerService customerService;
 
     @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
     JwtUtils jwtUtils;
 
     @PostMapping("/signin")
-    public ResponseEntity signin(@Valid @RequestBody LoginRequest loginRequest){
+    public ResponseEntity signin(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -54,21 +50,17 @@ public class AuthenticationController {
         List<String> roles = UserDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwt,UserDetails.getUsername(),roles));
+        return ResponseEntity.ok(new JwtResponse(jwt, UserDetails.getUsername(), roles));
     }
 
     @PostMapping("/signup-customer")
-    public ResponseEntity signupCustomer(@Valid @RequestBody CustomerSignupRequest customerSignupRequest){
-        if (customerRepo.existsByUsername(customerSignupRequest.getUsername())){
-            throw new RuntimeException("User name already exists");
+    public ResponseEntity signupCustomer(@Valid @RequestBody CustomerSignupRequest customerSignupRequest) {
+        try {
+            customerService.signupCustomer(customerSignupRequest);
+            return ResponseEntity.ok("Successfully registered");
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
-        if (customerRepo.existsByEmail(customerSignupRequest.getEmail())){
-            throw new RuntimeException("Email alreafy exists");
-        }
-
-        Customer customer = new Customer(customerSignupRequest.getUsername(), passwordEncoder.encode(customerSignupRequest.getPassword()),customerSignupRequest.getEmail());
-        customerRepo.save(customer);
-        return ResponseEntity.ok("Successfully registered");
 
 
     }

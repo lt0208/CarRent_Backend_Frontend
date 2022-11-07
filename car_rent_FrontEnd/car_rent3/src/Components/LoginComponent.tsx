@@ -63,11 +63,13 @@ const LoginComponent = () => {
     }
     return (
         <div>
+
+            <h3>Please log in to continue...</h3>
             <form >
                 <div className="mb-3">
                     <label  className="form-label">Username: 
                     <input
-                        
+                        id="username"
                         type="text" 
                         className="form-control"
                         onChange={(e: any) => setUsername(e.target.value)}></input> </label>
