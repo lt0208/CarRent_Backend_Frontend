@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.security.Principal;
 import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -53,10 +51,10 @@ public class CustomerController {
     public ResponseEntity getCustomerInfoById(@PathVariable Long id){
         try{
             Customer customer = customerService.getCustomerById(id);
-            CustomerInfo customerInfo = new CustomerInfo(customer.getFirstName()
-                    , customer.getLastName()
+            CustomerInfo customerInfo = new CustomerInfo(customer.getFirstname()
+                    , customer.getLastname()
                     ,customer.getEmail()
-                    ,customer.getCredit());
+                    ,customer.getCompletedRentals());
             return ResponseEntity.ok(customerInfo);}
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -69,8 +67,8 @@ public class CustomerController {
         try{
             String username = principal.getName();
             Customer customer = customerService.getCustomerByUsername(username);
-            customer.setFirstName(customerDetail.getFirstName());
-            customer.setLastName(customerDetail.getLastName());
+            customer.setFirstname(customerDetail.getFirstname());
+            customer.setLastname(customerDetail.getLastname());
             customer.setEmail(customerDetail.getEmail());
             customerService.saveCustomer(customer);
             return ResponseEntity.ok(customer);
@@ -107,5 +105,5 @@ class CustomerInfo{
     private String firstName;
     private String lastName;
     private String email;
-    private int credit;
+    private int completedRentals;
 }

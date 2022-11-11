@@ -25,22 +25,22 @@ const MakeRequestComponent = () => {
     brand: '',
     model: '',
     price: 0,
-    availability:''
+    availability: ''
   });
 
   const [customer, setCustomer] = useState<Customer>({
-    username:'',
-    password:'',
+    username: '',
+    password: '',
     email: ''
   });
   const [request, setRequest] = useState<Request>({
     id: -1,
     status: '',
-    dateCreated:'',
-    startDate:'',
-    endDate:'' ,
+    dateCreated: '',
+    startDate: '',
+    endDate: '',
     car: {},
-    customer:{}  
+    customer: {}
   })
 
   const submitChange = (e: React.MouseEvent<HTMLElement>) => {
@@ -55,12 +55,12 @@ const MakeRequestComponent = () => {
 
       //console.log("date range: " + dateRange[0].format('YYYY-MM-DD') + " to " + dateRange[1].toDate())
       console.log("request: " + JSON.stringify(request))
-      RequestService.makeRequest(request,parseInt(carId || "")).then((Response: any) => {
+      RequestService.makeRequest(request, parseInt(carId || "")).then((Response: any) => {
         console.log("+++++++++++")
         console.log("request: " + JSON.stringify(request) + "response data  " + Response.data)
         navigate('/requests-customer')
       }).catch((e: any) => {
-        window.alert("Error: "+e.message)
+        window.alert("Error: " + e.message)
         console.log(e);
       }
       )
@@ -75,7 +75,7 @@ const MakeRequestComponent = () => {
         setCar(Response.data);// it's not good to set the car obj of request here, if the below CustomerService did the same thing
         console.log("+++car: " + JSON.stringify(car) + " response data: " + Response.data)
       }).catch((e: any) => {
-        window.alert("Error: "+e.message)
+        window.alert("Error: " + e.message)
         console.log(e);
       }
       )
@@ -87,7 +87,7 @@ const MakeRequestComponent = () => {
         //Why? Two async fucntion modifying the same state isn't a good idea, I believe
         console.log("+++customer: " + JSON.stringify(customer) + " response data: " + Response.data)
       }).catch((e: any) => {
-        window.alert("Error: "+e.message)
+        window.alert("Error: " + e.message)
         console.log(e);
       }
       )
@@ -100,7 +100,7 @@ const MakeRequestComponent = () => {
     <div className='container'>MakeRequestComponent
 
       <form>
-        <h1>Hi, {customer.firstName}, welcome to our car booking service!</h1>
+        <h1>Hi, {customer.firstname}, welcome to our car booking service!</h1>
 
         <div className='container'>
           <div>
@@ -115,7 +115,7 @@ const MakeRequestComponent = () => {
             })} ></input> */}
           </div>
 
-          <div> Select Date Range
+          <div> 
             <BasicDateRangePicker dateRangeChild={dateRange} carChild={car} customerChild={customer} setDateRangeChild={setDateRange} setRequestChild={setRequest} />
           </div>
         </div>
@@ -132,11 +132,19 @@ const MakeRequestComponent = () => {
 export function BasicDateRangePicker(props: any) {
   // this function copied from MUI X
   return (
-    <LocalizationProvider
+    <div   style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+  
+    }}>
+    <LocalizationProvider 
       dateAdapter={AdapterDayjs}
       localeText={{ start: 'Start Date', end: 'End Date' }}
     >
-      <DateRangePicker
+      <DateRangePicker 
+     
+        disablePast
         value={props.dateRangeChild} //the original code, actually this isn't used. I used newValue directly.
         onChange={(newValue: DateRange<Dayjs>) => {
           props.setDateRangeChild(newValue);
@@ -170,6 +178,7 @@ export function BasicDateRangePicker(props: any) {
         )}
       />
     </LocalizationProvider>
+    </div>
   );
 }
 

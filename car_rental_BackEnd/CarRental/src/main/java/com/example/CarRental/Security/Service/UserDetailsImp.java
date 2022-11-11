@@ -14,12 +14,17 @@ public class UserDetailsImp implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private String firstName;
+    private String lastName;
+
     private String email;
 
     private List< GrantedAuthority> authorities = new ArrayList<>();
 
-    public UserDetailsImp(String username, String password, String email, String role) {
+    public UserDetailsImp(String username,String firstName, String lastName,String password, String email, String role) {
         this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.email = email;
         this.authorities.add(new SimpleGrantedAuthority(role));
@@ -39,6 +44,14 @@ public class UserDetailsImp implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override

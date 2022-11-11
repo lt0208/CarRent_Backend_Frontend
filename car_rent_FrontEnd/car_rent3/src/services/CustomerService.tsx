@@ -3,7 +3,7 @@ import { Customer } from "../Components/Interfaces";
 import authHeader from "./AuthorizationHeader";
 
 const  Customer_REST_API_URL = "http://localhost:8080/customers";
-
+//const  Customer_REST_API_URL = "http://carrentelasbean-env.eba-vnaxaib2.us-west-2.elasticbeanstalk.com/customers";
 class CustomerService{
     getCurrentCustomer(){
         return axios.get(Customer_REST_API_URL+"/current",  {headers: authHeader()})

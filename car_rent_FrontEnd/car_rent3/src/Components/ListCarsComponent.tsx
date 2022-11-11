@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 import Car from "./Interfaces";
+import { Script } from "vm";
 
 const ListCarsComponent = () => {
     const [carsList, setCarsList] = useState([]);
@@ -11,19 +12,21 @@ const ListCarsComponent = () => {
     var customerId = 3;
 
     const deletion = (id: number) => {
+        if (window.confirm(`Are you sure to delete car ${id} ?`)){
+            CarService.deleteCar(id).then((Response: any) => {
+                window.alert("Car " + id+" has been deleted!");
+                if (available) {
+                    readAvailableCars();
+                } else {
+                    readAllCars();
+                }
+            }).catch((e: any) => {
+                alert("Error: "+e.response.data) //return e.message is ok but not detail
+                console.log(e);
+            }            
+            );// CAN'T pass {id} to the function
 
-        CarService.deleteCar(id).then((Response: any) => {
-            window.alert("Car " + id+" has been deleted!");
-            if (available) {
-                readAvailableCars();
-            } else {
-                readAllCars();
-            }
-        }).catch((e: any) => {
-            alert("Error: "+e.response.data) //return e.message is ok but not detail
-            console.log(e);
-        }            
-        );// CAN'T pass {id} to the function
+        }       
 
     }
 
@@ -66,8 +69,10 @@ const ListCarsComponent = () => {
         }
     }, [])
 
+
+
     return (
-        <div className="container">
+        <div className="container"  >
             {!available && <Link className="btn btn-primary" to={"/add-car"}>Add New Car</Link>}
             <div id="alert"></div>
 
@@ -93,13 +98,14 @@ const ListCarsComponent = () => {
                                     // or you could use a ternary expression in {} instead
                                     //or use && in {}
                                     <tr key={car.id}>
-                                        <th scope="row">{++tableRow}</th>
+                                        <td scope="row">{++tableRow}</td>
                                         <td>{car.id}</td>
                                         <td>{car.year}</td>
                                         <td>{car.brand}</td>
                                         <td>{car.model}</td>
                                         <td>{car.price}</td>
-                                        <td>{car.availability}</td>
+                                        <td>{car.availability ==="AVAILABLE"? <p>AVAILABLE</p> : <p style={{color:"red"}}>{car.availability}</p>}</td>
+                                       
 
                                         <td>
                                             {(available) && <Link className="btn btn-success" to={`/make-request/${car.id}/${customerId}`} >Request</Link>}
@@ -121,7 +127,10 @@ const ListCarsComponent = () => {
                 </tbody>
             </table>
         </div>
+
+    
     )
+  
 }
 
 export default ListCarsComponent

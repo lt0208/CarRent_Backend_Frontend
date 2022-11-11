@@ -9,12 +9,12 @@ export default interface Car{
 
 export interface Customer{
     id?:number,
-    firstName?:string,
-    lastName?:string,
+    firstname?:string,
+    lastname?:string,
     username:string,
     password:string,
     email:string,
-    credit?:number
+    completedRentals?:number
 }
 
 export interface CustomerInfo{
@@ -22,7 +22,7 @@ export interface CustomerInfo{
     firstName:string,
     lastName:string,   
     email:string,
-    credit:number
+    completedRentals:number
 }
 
 export interface RegisterPayload {
@@ -31,7 +31,7 @@ export interface RegisterPayload {
     email: string,
     firstname?: string,
     lastname?: string,
-    credit?: number,
+    completedRentals?: number,
     role: string
 }
 

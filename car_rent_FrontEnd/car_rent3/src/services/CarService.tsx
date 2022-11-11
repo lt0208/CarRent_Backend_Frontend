@@ -3,7 +3,7 @@ import Car from "../Components/Interfaces";
 import authHeader from "./AuthorizationHeader";
 
 const Car_REST_API_URL = "http://localhost:8080/cars";
-
+//const Car_REST_API_URL = "http://carrentelasbean-env.eba-vnaxaib2.us-west-2.elasticbeanstalk.com/cars";
 class CarService {
     getAllCars = () => {
         return axios.get(Car_REST_API_URL, {headers:authHeader()});

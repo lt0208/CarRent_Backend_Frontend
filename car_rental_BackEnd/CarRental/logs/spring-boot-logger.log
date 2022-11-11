@@ -1,0 +1,21 @@
+2022-11-11 08:09:48.794  INFO 33600 --- [main] c.e.CarRental.CarRentalApplicationTests  : Starting CarRentalApplicationTests using Java 18.0.2.1 on DESKTOP-1DU6PJ3 with PID 33600 (started by lt0208 in D:\Spring Project\CarRent_FrontEnd BackEnd_Deploy\car_rental_BackEnd\CarRental)
+2022-11-11 08:09:48.798  INFO 33600 --- [main] c.e.CarRental.CarRentalApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+2022-11-11 08:09:49.514  INFO 33600 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-11 08:09:49.569  INFO 33600 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 4 JPA repository interfaces.
+2022-11-11 08:09:50.072  INFO 33600 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-11 08:09:50.121  INFO 33600 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.12.Final
+2022-11-11 08:09:50.286  INFO 33600 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-11-11 08:09:50.444  INFO 33600 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-11-11 08:09:50.603  INFO 33600 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-11-11 08:09:50.616  INFO 33600 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2022-11-11 08:09:51.331  INFO 33600 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-11 08:09:51.337  INFO 33600 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-11 08:09:51.750  WARN 33600 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-11 08:09:51.922  WARN 33600 --- [main] c.e.C.S.Service.WebSecurityConfig        : configure AuthenticationManagerBuilder ok
+2022-11-11 08:09:51.964  WARN 33600 --- [main] c.e.C.S.Service.WebSecurityConfig        : configure HttpSecurity ok
+2022-11-11 08:09:51.969  WARN 33600 --- [main] c.e.C.S.Service.WebSecurityConfig        : addFilterBefore ok
+2022-11-11 08:09:52.253  INFO 33600 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@68b3de47, org.springframework.security.web.context.SecurityContextPersistenceFilter@32c08610, org.springframework.security.web.header.HeaderWriterFilter@4db4431b, org.springframework.web.filter.CorsFilter@5b827796, org.springframework.security.web.authentication.logout.LogoutFilter@3dad8bde, com.example.CarRental.Security.JWT.AuthTokenFilter@6055e899, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1756a471, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@73818435, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@27c827ec, org.springframework.security.web.session.SessionManagementFilter@155318b5, org.springframework.security.web.access.ExceptionTranslationFilter@57f83c82, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@382608d0]
+2022-11-11 08:09:52.572  INFO 33600 --- [main] c.e.CarRental.CarRentalApplicationTests  : Started CarRentalApplicationTests in 4.009 seconds (JVM running for 4.757)
+2022-11-11 08:09:52.757  INFO 33600 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-11 08:09:52.758  INFO 33600 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-11-11 08:09:52.765  INFO 33600 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

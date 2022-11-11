@@ -31,7 +31,7 @@ const RequestDetail = () => {
         firstName: '',
         lastName: '',
         email: '',
-        credit: 0
+        completedRentals: 0
     })
 
 
@@ -62,6 +62,7 @@ const RequestDetail = () => {
                     CustomerService.getCustomerInfoById(request.customer.id).then(// use the const value of request rather than the state!!!
                         (Response: any) => {
                             setCustomerInfo(Response.data);
+                            console.log("setCustomerInfo(Response.data):  "+JSON.stringify(Response.data))
                         }
                     ).catch(e => window.alert(e.message))
 
@@ -76,8 +77,9 @@ const RequestDetail = () => {
     return (
 
         <div>
+<br></br>
 
-            <div> <Typography align="left"><h5>Request Info</h5></Typography>
+            <div> <Typography align="left"><h4>Request Info</h4></Typography>
                 <table className="table table-sm table-bordered border-primary">
                     <thead>
 
@@ -92,15 +94,14 @@ const RequestDetail = () => {
                         <td>{requestObj.dateCreated}</td>
                         <td>{requestObj.startDate}</td>
                         <td>{requestObj.endDate}</td>
-                        <td><strong>{requestObj.status}</strong></td>
+                        <td style={{color:"red"}}>{requestObj.status}</td>
                     </tbody>
 
                 </table>
             </div>
-            <br></br>
+        
 
-
-            <div><Typography align="left"><h5>Car Info</h5></Typography>
+            <div><Typography align="left"><h4>Car Info</h4></Typography>
                 <table className="table table-sm table-bordered border-primary">
                     <thead>
                         <th>Car Id</th>
@@ -124,22 +125,21 @@ const RequestDetail = () => {
                 </table>
 
             </div>
-            <br></br>
+        
 
-
-            <div><Typography align="left"><h5>Customer Info</h5></Typography>
+            <div><Typography align="left"><h4>Customer Info</h4></Typography>
                 <table className="table table-sm table-bordered border-primary">
                     <thead>
                         <th>Customer First Name</th>
                         <th>Customer Last Name</th>
                         <th>Customer Email</th>
-                        <th>Customer Credit</th>
+                        <th>Completed rentals</th>
                     </thead>
                     <tbody>
                         <td>{customerInfo.firstName}</td>
                         <td>{customerInfo.lastName}</td>
                         <td>{customerInfo.email}</td>
-                        <td>{customerInfo.credit}</td>
+                        <td>{customerInfo.completedRentals}</td>
                     </tbody>
                 </table>
 
@@ -148,12 +148,12 @@ const RequestDetail = () => {
             {requestObj.status === "SUBMITTED" &&
                 <button className='btn btn-success' onClick={() => {
                     if (requestObj.id) { changeStatus(requestObj.id, 1) }
-                }}>Approve</button>}
+                }}>Approve</button>} {'  '}
 
             {requestObj.status === "SUBMITTED" &&
                 <button className='btn btn-warning' onClick={() => {
                     if (requestObj.id) { changeStatus(requestObj.id, 3) }
-                }}>Deny</button>}
+                }}>Deny</button>}  {'  '}
 
             {requestObj.status === "APPROVED" &&
                 <button className='btn btn-primary' onClick={() => {

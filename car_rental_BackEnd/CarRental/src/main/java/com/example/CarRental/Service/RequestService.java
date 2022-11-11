@@ -2,6 +2,7 @@ package com.example.CarRental.Service;
 
 import com.example.CarRental.Exception.ResourceNotFoundException;
 import com.example.CarRental.Model.*;
+import com.example.CarRental.Repository.CarRepo;
 import com.example.CarRental.Repository.CustomerRepo;
 import com.example.CarRental.Repository.RequestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class RequestService {
     private RequestRepo requestRepo;
     @Autowired
     private CustomerRepo customerRepo;
+
+    @Autowired
+    private CarRepo carRepo;
 
     public void saveRequest(Request request){
         requestRepo.save(request);
@@ -85,10 +89,12 @@ public class RequestService {
         Request request = requestRepo.findById(requestId).orElseThrow(
                 () -> new ResourceNotFoundException("can't find the request with id: "+requestId));
         Car car = request.getCar();
+        Customer customer = request.getCustomer();
        switch (statusId){
            case 0:
                request.setStatus(RequestStatus.SUBMITTED);
                car.setAvailability(CarStatus.IN_REQUEST);
+
                break;
            case 1:
                request.setStatus(RequestStatus.APPROVED);
@@ -104,13 +110,18 @@ public class RequestService {
                break;
            case 4:
                request.setStatus(RequestStatus.RETURNED);
+               customer.increaseCompletedRentals();
+               customerRepo.save(customer);
                car.setAvailability(CarStatus.AVAILABLE);
                break;
            default:
                throw new Exception("Status value is not valid!");
 
        }
+
+
         //request.setStatus(status);// Alternative: pass enum directly. works in postman but not in React. when passing enum in postman, just give the value, e.g. "APPROVED", skip {}
+        carRepo.save(car);
         return requestRepo.save(request);
 
     }

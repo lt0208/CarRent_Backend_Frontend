@@ -1,7 +1,6 @@
 package com.example.CarRental.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
@@ -24,12 +23,12 @@ public class Customer {
     @NotBlank
     @Size(max = 120)
     private String password;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     @NotBlank
     @Email
     private String email;
-    private int credit;
+    private int completedRentals = 0;
 
     private String role="ROLE_CUSTOMER";
 
@@ -39,8 +38,21 @@ public class Customer {
         this.email = email;
     }
 
+    public Customer(String username,  String firstName, String lastName, String email,String password) {
+        this.username = username;
+
+        this.firstname = firstName;
+        this.lastname = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private Set<Request> requestSet;
+
+    public void increaseCompletedRentals(){
+        this.completedRentals++;
+    }
 
 }

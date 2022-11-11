@@ -2,7 +2,7 @@ import axios from "axios";
 import { Request } from "../Components/Interfaces";
 import authHeader from "./AuthorizationHeader";
 const REQUESTS_REST_API_URL = "http://localhost:8080/requests";
-
+//const REQUESTS_REST_API_URL = "http://carrentelasbean-env.eba-vnaxaib2.us-west-2.elasticbeanstalk.com/requests";
 class RequestService {
     getAllRequests() {
         return axios.get(REQUESTS_REST_API_URL + "/all",{headers:authHeader()});

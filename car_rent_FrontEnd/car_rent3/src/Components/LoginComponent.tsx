@@ -36,6 +36,8 @@ const passwordSize = (value: String) => {
 const LoginComponent = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [usernamEmpty, setUsernameEmpty] = useState(false);
+    const [passwordEmpty, setPasswordEmpty] = useState(false);
     // const [message, setMessage] = useState("");
     const navigation = useNavigate();
     const form = useRef();
@@ -43,20 +45,29 @@ const LoginComponent = () => {
 
     function handleLogin(e: any) {
         e.preventDefault();
+        if (username === "") {
+            setUsernameEmpty(true)
+
+        }
+        if (password === "") {
+            setPasswordEmpty(true)
+
+        }
+        
         console.log("handleLogin")
 
 
         AuthService.signin(username, password).then(
-            (response:any) => {               
+            (response: any) => {
                 window.alert("Login successfully")
-                console.log("localStorage: " +   localStorage.getItem("user"));
+                console.log("localStorage: " + localStorage.getItem("user"));
                 navigation("/");
                 window.location.reload();
             },
 
-            (error:any) => {
-                    console.log("error:  "+error)
-                    window.alert("Login error: " + error.message)
+            (error: any) => {
+                console.log("error:  " + error)
+                window.alert(error.response.data)
             }
         )
 
@@ -66,22 +77,31 @@ const LoginComponent = () => {
 
             <h3>Please log in to continue...</h3>
             <form >
-                <div className="mb-3">
-                    <label  className="form-label">Username: 
-                    <input
-                        id="username"
-                        type="text" 
-                        className="form-control"
-                        onChange={(e: any) => setUsername(e.target.value)}></input> </label>
+                <div className="signup-div" >
+                    <label className="form-label" htmlFor="username1">Username:</label>
+                        <input
+                            id="username1"
+                            type="text"
+                           
+                            onChange={(e: any) => {
+                                setUsername(e.target.value)
+                                setUsernameEmpty(false)
+                            }}></input> 
+                    {usernamEmpty && <p style={{ color: 'red' }}>Please input username to login!</p>}
                 </div>
 
-                <div className="mb-3">
-                    <label className="form-label">Password:
-                    <input
-                        type="password" className="form-control"
-                        onChange={(e: any) => setPassword(e.target.value)}></input> </label>
+                <div className="signup-div">
+                    <label className="form-label" htmlFor="password1">Password:</label>
+                        <input
+                        id="password1"
+                            type="password" 
+                            onChange={(e: any) => {
+                                setPassword(e.target.value)
+                                setPasswordEmpty(false)
+                                }}></input> 
+                    {passwordEmpty && <p style={{ color: 'red' }} >Please input password to login!</p>}
                 </div >
-                <button className="btn btn-primary" onClick={e =>handleLogin(e)}>Login</button>
+                <button className="btn btn-primary" onClick={e => handleLogin(e)}>Login</button>
             </form>
         </div>
     )

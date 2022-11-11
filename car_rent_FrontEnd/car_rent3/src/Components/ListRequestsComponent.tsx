@@ -7,9 +7,27 @@ import Car, { Request } from './Interfaces';
 
 const ListRequestsComponent = (props: any) => {
     const navigate = useNavigate();
+    // const [isEmpty, setIsEmpty] = useState(false);
+    var isEmpty = false; // I use this instead of state coz the below code "isEmpty && show message" execute and flash out even if isEmpty is false
+    //I guess some delay for useState
+    //Another solution is passing requests length to props
+
+
+    useEffect(() => {
+        console.log('isEmpty1:  ', isEmpty)
+        const length = props.requests.length;
+        //setIsEmpty(length == 0);
+        if (length == 0) {
+            isEmpty = true
+        }
+        console.log('+++++++++++++++', length)
+        console.log('isEmpty2:  ', isEmpty)
+
+
+    }, [props.requests])
 
     const changeStatus = (requestId: number, statusId: number) => {
-        console.log('+++++++++++++++++')
+
         console.log(localStorage.getItem("user"))
 
         RequestService.handleRequest(requestId, statusId).then(
@@ -27,104 +45,115 @@ const ListRequestsComponent = (props: any) => {
         )
     }
     var tableRow = 0;
-
-
     return (
-        (props.requests.length > 0 ?
-            <table className="table table-striped">
-                <thead>
-                    <tr><th scope="col">#</th>
-                        <th>Request Id</th>
-                        <th>Request  date</th>
-                        <th>Car Id</th>
-                        <th>Car</th>
-                        <th>Price</th>
-                        <th>start date</th>
-                        <th>End date</th>
-                        <th>Status</th>
-                        <th>Operation</th>
 
-                    </tr>
-                </thead>
+        <div>
+            {!isEmpty &&
+                <table className="table table-striped">
+                    <thead>
+                        <tr><th scope="col">#</th>
+                            <th>Request Id</th>
+                            <th>Request  date</th>
+                            <th>Car Id</th>
+                            <th>Car</th>
+                            <th>Price</th>
+                            <th>start date</th>
+                            <th>End date</th>
+                            <th>Status</th>
+                            <th>Operation</th>
 
-                <tbody>
-                    {
-                        props.requests.map(
-                            (request: Request) => {
-                                //tableRow++; // or update tableRow here
-                                return (
-                                    //<GetCar request={request} show="model"/>; Approach1:Pass data through props to GetCar, and directly use the returned React-element
-                                    // <GetCar2 request={request} car={carObj} setCar={setCarObj} />; Approach2: it's supposed to be able to access updated carObj. But doesn't work well
-                                    <>
-                                        <tr key={request.id}>
-                                            <td scope="row">{++tableRow}</td>
-                                            <td>{request.id}</td>
-                                            <td>{request.dateCreated}</td>
-                                            <GetCar request={request} show="carId" />
-                                            <GetCar request={request} show="car" />
-                                            <GetCar request={request} show="price" />
-                                            <td>{request.startDate}</td>
-                                            <td>{request.endDate}</td>
-                                            <td>{request.status}</td>
-                                            <td>
-                                                {props.isCustomer && request.status === "APPROVED" &&
-                                                    <button className='btn btn-success' onClick={() => {
-                                                        if (request.id) { 
-                                                            if(window.confirm("Are you sure to return the car?")){
-                                                                changeStatus(request.id, 4)
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {
+                            props.requests.map(
+                                (request: Request) => {
+                                    //tableRow++; // or update tableRow here
+                                    return (
+                                        //<GetCar request={request} show="model"/>; Approach1:Pass data through props to GetCar, and directly use the returned React-element
+                                        // <GetCar2 request={request} car={carObj} setCar={setCarObj} />; Approach2: it's supposed to be able to access updated carObj. But doesn't work well
+                                        <>
+                                            <tr key={request.id}>
+                                                <td scope="row">{++tableRow}</td>
+                                                <td>{request.id}</td>
+                                                <td>{request.dateCreated}</td>
+                                                <GetCar request={request} show="carId" />
+                                                <GetCar request={request} show="car" />
+                                                <GetCar request={request} show="price" />
+                                                <td>{request.startDate}</td>
+                                                <td>{request.endDate}</td>
+
+
+                                                <td id="status">{request.status}</td>
+                                                <td>
+                                                    {props.isCustomer && request.status === "APPROVED" &&
+                                                        <button className='btn btn-success' onClick={() => {
+                                                            if (request.id) {
+                                                                if (window.confirm("Are you sure to return the car?")) {
+                                                                    changeStatus(request.id, 4)
+                                                                }
                                                             }
-                                                             }
-                                                    }}>Return Car</button>}
+                                                        }}>Return Car</button>}
+                                                    {'  '}
 
-                                                {props.isCustomer && request.status === "SUBMITTED" &&
-                                                    <button className='btn btn-warning' onClick={() => {
-                                                        if (request.id) { 
-                                                            if(window.confirm("Are you sure to cancel the order?")){
-                                                                changeStatus(request.id, 2) 
+                                                    {props.isCustomer && request.status === "SUBMITTED" &&
+                                                        <button className='btn btn-warning' onClick={() => {
+                                                            if (request.id) {
+                                                                if (window.confirm("Are you sure to cancel the order?")) {
+                                                                    changeStatus(request.id, 2)
+                                                                }
                                                             }
+                                                        }}>Cancel Car</button>}
+                                                    {'  '}
+
+                                                    {!props.isCustomer && request.status === "APPROVED" &&
+                                                        <button className='btn btn-primary' onClick={() => {
+                                                            if (request.id) {
+                                                                if (window.confirm("Are you sure the rental is done and return car for the customer?")) {
+                                                                    changeStatus(request.id, 4)
+                                                                }
                                                             }
-                                                    }}>Cancel Car</button>}
 
-                                                {!props.isCustomer && request.status === "APPROVED" &&
-                                                    <button className='btn btn-primary' onClick={() => {
-                                                        if (request.id) { 
-                                                            if (window.confirm("Are you sure the rental is done and return car for the customer?")){
-                                                                changeStatus(request.id, 4)
+                                                        }}>Return (For Customer)</button>}
+                                                    {'  '}
+
+                                                    {!props.isCustomer &&
+                                                        <Link className='btn btn-info' to={`/request-detail/${request.id}`} >View</Link>}
+                                                    {'  '}
+
+                                                    {!props.isCustomer && request.status === "SUBMITTED" &&
+                                                        <button className='btn btn-success' onClick={() => {
+                                                            if (request.id) {
+                                                                if (window.confirm("Are you sure to approve the request?")) {
+                                                                    changeStatus(request.id, 1)
+                                                                }
                                                             }
-                                                         }
-                                                        
-                                                    }}>Return (For Customer)</button>}
+                                                        }}>Approve</button>} {'  '}
 
-                                                {!props.isCustomer  &&
-                                                    <Link className='btn btn-info' to={`/request-detail/${request.id}`} >View</Link>}
-
-                                                {!props.isCustomer && request.status === "SUBMITTED" &&
-                                                    <button className='btn btn-success' onClick={() => {
-                                                        if (request.id) { 
-                                                            if(window.confirm("Are you sure to approve the request?")){
-                                                                changeStatus(request.id, 1)
+                                                    {!props.isCustomer && request.status === "SUBMITTED" &&
+                                                        <button className='btn btn-warning' onClick={() => {
+                                                            if (request.id) {
+                                                                if (window.confirm("Are you sure to deny the request?")) {
+                                                                    changeStatus(request.id, 3)
+                                                                }
                                                             }
-                                                             }
-                                                    }}>Approve</button>}
+                                                        }}>Deny</button>}
 
-                                                {!props.isCustomer && request.status === "SUBMITTED" &&
-                                                    <button className='btn btn-warning' onClick={() => {
-                                                        if (request.id) { 
-                                                            if(window.confirm("Are you sure to deny the request?")){
-                                                                changeStatus(request.id, 3)
-                                                            }
-                                                             }
-                                                    }}>Deny</button>}
-
-                                            </td>
-                                        </tr>
-                                    </>)
-                            })}
-                </tbody>
-            </table> : <div>
-                <h2>You don't have submitted request to handle now!</h2>
-                <h3>(For testing, login as customer and make requests.)</h3>
-            </div>)
+                                                </td>
+                                            </tr>
+                                        </>)
+                                })}
+                    </tbody>
+                </table>
+            }
+            {isEmpty &&
+                <div>
+                    {!props.isCustomer && <h2>You don't have submitted request to handle now!</h2>}
+                    {props.isCustomer && <h2>You don't have any request now!</h2>}
+                    <h3>(For testing, login as customer and make requests.)</h3>
+                </div>}
+        </div>
     )
 }
 

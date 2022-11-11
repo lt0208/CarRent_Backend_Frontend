@@ -2,16 +2,14 @@ package com.example.CarRental.Service;
 
 import com.example.CarRental.Exception.ResourceNotFoundException;
 import com.example.CarRental.Model.Customer;
-import com.example.CarRental.Payload.Request.CustomerSignupRequest;
 import com.example.CarRental.Repository.CustomerRepo;
+import com.example.CarRental.Repository.ManagerRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -20,7 +18,12 @@ public class CustomerService {
     private CustomerRepo customerRepo;
 
     @Autowired
+    private ManagerRepo managerRepo;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
+
+    Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
     public List<Customer> getAllCustomers() {
         return customerRepo.findAll();
@@ -42,15 +45,21 @@ public class CustomerService {
         customerRepo.save(customer);
     }
 
-    public void signupCustomer(CustomerSignupRequest customerSignupRequest) {
-        if (customerRepo.existsByUsername(customerSignupRequest.getUsername())) {
+    public void signupCustomer(Customer customerDetail) {
+        logger.info("customer2 passed: "+customerDetail);
+        if (customerRepo.existsByUsername(customerDetail.getUsername())) {
             throw new RuntimeException("User name already exists");
         }
-        if (customerRepo.existsByEmail(customerSignupRequest.getEmail())) {
+        if (customerRepo.existsByEmail(customerDetail.getEmail())) {
             throw new RuntimeException("User email already exists");
         }
+        if(managerRepo.existsByUsername(customerDetail.getUsername())){
+            throw new RuntimeException("User name conflicts with manager name, not allowed in our system");
+        }
 
-        Customer customer = new Customer(customerSignupRequest.getUsername(), passwordEncoder.encode(customerSignupRequest.getPassword()), customerSignupRequest.getEmail());
+        Customer customer = new Customer(customerDetail.getUsername(),customerDetail.getFirstname(),customerDetail.getFirstname(),customerDetail.getEmail(), passwordEncoder.encode(customerDetail.getPassword()) );
+        customer.setFirstname(customerDetail.getFirstname());
+        customer.setLastname(customerDetail.getLastname());
         customerRepo.save(customer);
     }
 

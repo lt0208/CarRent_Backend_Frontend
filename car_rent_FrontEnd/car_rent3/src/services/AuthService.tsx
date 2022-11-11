@@ -4,6 +4,7 @@ import Car,{RegisterPayload} from "../Components/Interfaces";
 
 
 const AUTH_REST_API_URL = "http://localhost:8080/auth";
+//const AUTH_REST_API_URL = "http://carrentelasbean-env.eba-vnaxaib2.us-west-2.elasticbeanstalk.com/auth";
 class AuthService {
 
     signin = (username: String, password: String) => {

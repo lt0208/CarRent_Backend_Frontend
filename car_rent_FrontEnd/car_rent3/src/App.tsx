@@ -19,7 +19,15 @@ import SignupComponent from './Components/SignupComponent';
 function App() {
 
   return (
-    <div className="App">
+    <div className="App" style={  {
+      backgroundImage: `url(/car.jpg)`,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      width: '100vw',
+      height: '100vh'
+      
+  }}>
        <BrowserRouter>
       <div className='container'>
         <Headers />
@@ -41,8 +49,7 @@ function App() {
           <Route path='/all-requests/:submitted' element={<ListRequestsByCondition />}></Route>
           <Route path='/requests-customer' element={<ListRequestsByCustomer />}></Route>
           <Route path='/request-detail/:requestId' element={<RequestDetail />}></Route>
-
-          <Route path='/make-request/:carId/:customerId' element={<MakeRequestComponent />}></Route>   
+          <Route path='/make-request/:carId/:customerId' element={<MakeRequestComponent />}></Route> 
 
           <Route path='/update-customer/:id' element={<UpdateCustomerComponent />}></Route>     
          

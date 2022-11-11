@@ -11,4 +11,7 @@ public interface ManagerRepo extends JpaRepository<Manager, Long> {
     @Query("select m from Manager m where m.username = ?1")
     Manager findByUsername(String username);
 
+    @Query("select (count(m) > 0) from Manager m where m.username = ?1")
+    boolean existsByUsername(String username);
+
 }

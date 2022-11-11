@@ -10,58 +10,66 @@ const Headers = () => {
   useEffect(() => {
     const user = AuthService.getCurrentUser(); // this is a const value, obtain the user obj immedaitely, faster than the user in state
     if (user) {
+      console.log("user:  "+JSON.stringify(user));
+      console.log("user roles:  "+JSON.stringify(user.roles));
+
       setUser(user);
-      setIsCustomer(user.roles.includes('CUSTOMER') || user.roles.includes('ROLE_CUSTOMER'))
-      setIsManager(user.roles.includes('MANAGER') || user.roles.includes('ROLE_MANAGER'))
+      setIsCustomer(user.roles.includes('ROLE_CUSTOMER'))
+      setIsManager( user.roles.includes('ROLE_MANAGER'))
     }
 
   }, [])
 
   return (
-    <div className="card text-center">
-      <div className="card-header">
+    <nav className="navbar" style={{backgroundColor: "DarkSeaGreen"}}>
+
+   
+      <div className="container-fluid">
+        
         <ul className="nav nav-pills card-header-pills">
 
           {!user && (<li className="nav-item">
-            <a className="nav-link" href="/login">Log in</a>
+            <a className="navbar-brand" href="/login">Log in</a>
           </li>)}
 
           {isManager &&  (<li className="nav-item">
-            <a className="nav-link" href="/all-cars">All Cars</a>
+            <a className="navbar-brand" href="/all-cars">All Cars</a>
           </li>)}
 
           {isCustomer && (<li className="nav-item">
-            <a className="nav-link" href="/all-cars/:available">Available Cars</a>
+            <a className="navbar-brand" href="/all-cars/:available">Available Cars</a>
           </li>)}
 
           {isManager && (<li className="nav-item">
-            <a className="nav-link" href="/all-requests">All Requests</a>
+            <a className="navbar-brand" href="/all-requests">All Requests</a>
           </li>)}
 
           {isManager && (<li className="nav-item">
-            <a className="nav-link" href="/all-requests/:submitted">Submitted Requests</a>
+            <a className="navbar-brand" href="/all-requests/:submitted">Submitted Requests</a>
           </li>)}
 
           {isCustomer &&
             (<li className="nav-item">
-              <a className="nav-link" href="/requests-customer">Customer Account</a>
+              <a className="navbar-brand" href="/requests-customer">Customer Account</a>
             </li>)}
 
           {user && (<li className="nav-item">
-            <a className="nav-link" href="/logout">Logout</a>
+            <a className="navbar-brand" href="/logout">Logout</a>
           </li>)}
 
           {!user && (
             <li className='nav-item'>
-              <Link  className="nav-link" to="/signup">Sign Up</Link>
+              <Link  className="navbar-brand" to="/signup">Sign Up</Link>
 
             </li>
           )}
-
         </ul>
+        <h5 >Credentials for testing, manager: tim, 4321, customer: jack, 4321</h5>
       </div>
 
-    </div>
+    
+</nav>
+    
   )
 }
 

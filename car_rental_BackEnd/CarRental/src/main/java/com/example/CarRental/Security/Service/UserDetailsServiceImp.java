@@ -2,7 +2,6 @@ package com.example.CarRental.Security.Service;
 
 import com.example.CarRental.Model.Customer;
 import com.example.CarRental.Model.Manager;
-import com.example.CarRental.Payload.Response.JwtResponse;
 import com.example.CarRental.Repository.CustomerRepo;
 import com.example.CarRental.Repository.ManagerRepo;
 import org.slf4j.Logger;
@@ -41,6 +40,8 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
             UserDetailsImp c = new UserDetailsImp(
                     customer.getUsername(),
+                    customer.getFirstname(),
+                    customer.getLastname(),
                     customer.getPassword(),
 
                     customer.getEmail(),
@@ -53,6 +54,8 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
             UserDetailsImp m = new UserDetailsImp(
                     manager.getUsername(),
+                    manager.getFirstName(),
+                    manager.getLastName(),
                     manager.getPassword(),
                     manager.getEmail(),
                     manager.getRole());

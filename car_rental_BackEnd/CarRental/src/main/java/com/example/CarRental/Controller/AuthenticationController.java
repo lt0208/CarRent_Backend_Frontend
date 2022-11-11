@@ -1,11 +1,9 @@
 package com.example.CarRental.Controller;
 
 import com.example.CarRental.Model.Customer;
-import com.example.CarRental.Payload.Request.CustomerSignupRequest;
 import com.example.CarRental.Payload.Request.LoginRequest;
 import com.example.CarRental.Payload.Response.JwtResponse;
-import com.example.CarRental.Repository.CustomerRepo;
-import com.example.CarRental.Repository.ManagerRepo;
+
 import com.example.CarRental.Security.JWT.JwtUtils;
 import com.example.CarRental.Security.Service.UserDetailsImp;
 import com.example.CarRental.Service.CustomerService;
@@ -42,23 +40,30 @@ public class AuthenticationController {
 
     @PostMapping("/signin")
     public ResponseEntity signin(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-        UserDetailsImp UserDetails = (UserDetailsImp) authentication.getPrincipal();
-        List<String> roles = UserDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwt, UserDetails.getUsername(), roles));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+            UserDetailsImp UserDetails = (UserDetailsImp) authentication.getPrincipal();
+            List<String> roles = UserDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(new JwtResponse(jwt, UserDetails.getUsername(), roles));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: incorrect credential!");
+        }
+
+
     }
 
     @PostMapping("/signup-customer")
-    public ResponseEntity signupCustomer(@Valid @RequestBody CustomerSignupRequest customerSignupRequest) {
+    public ResponseEntity signupCustomer(@Valid @RequestBody Customer customer) {
         try {
-            customerService.signupCustomer(customerSignupRequest);
+            logger.info("customer passed1: "+customer);
+            customerService.signupCustomer(customer);
             return ResponseEntity.ok("Successfully registered");
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
 

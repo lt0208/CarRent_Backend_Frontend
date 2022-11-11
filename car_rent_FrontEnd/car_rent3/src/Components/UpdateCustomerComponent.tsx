@@ -50,19 +50,19 @@ const UpdateCustomerComponent = () => {
         <div className='container'>
             <form>
                 <div>
-                    <label>First Name:
-                        <input value={customer.firstName} type="text" className="form-control" onChange={e => { setCustomer({ ...customer, firstName: e.target.value }) }}></input>
+                    <label className="form-label">First Name:
+                        <input value={customer.firstname} type="text" className="form-control" onChange={e => { setCustomer({ ...customer, firstname: e.target.value }) }}></input>
                     </label>
                 </div>
                 <div>
-                    <label>Last Name:
-                        <input value={customer.lastName} type="text" className="form-control" onChange={e => { setCustomer({ ...customer, lastName: e.target.value }) }}></input>
+                    <label className="form-label">Last Name:
+                        <input value={customer.lastname} type="text" className="form-control" onChange={e => { setCustomer({ ...customer, lastname: e.target.value }) }}></input>
                     </label>
                 </div>
 
                 <div>
 
-                    <label>Email:
+                    <label className="form-label">Email:
                         <input value={customer.email} type="text" className="form-control" onChange={e => { setCustomer({ ...customer, email: e.target.value }) }}></input>
                     </label>
 

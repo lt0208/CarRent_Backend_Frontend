@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Car, { RegisterPayload } from "../Components/Interfaces";
 import AuthService from '../services/AuthService';
-import { useForm,SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-interface FormData  {
+interface FormData {
   username: String,
-    password: string,
-    email: string
-   
+  password: string,
+  email: string
+
 };
 
 const SignupComponent = () => {
@@ -20,77 +20,104 @@ const SignupComponent = () => {
     email: '',
     firstname: '',
     lastname: '',
-    credit: 0,
+    completedRentals: 0,
     role: "ROLE_CUSTOMER"
   })
 
-  const saveCustomer = (e:any) => {//This method isn't used. Checkout saveCustomer2.
-    e.preventDefault(); 
+  const saveCustomer = (e: any) => {//This method isn't used. Checkout saveCustomer2.
+    e.preventDefault();
     AuthService.register(cusomer).then((Response: any) => {
-      window.alert(Response.data+"! Please signin to rent a car!");
+      window.alert(Response.data + "! Please signin to rent a car!");
       navigator("/");
       window.location.reload();
 
     }).catch(e => {
-      
+
       window.alert("Error: " + e.response.data)
 
       console.log("Error: " + e)
     })
   }
 
-  const saveCustomer2: SubmitHandler<RegisterPayload> = (data:RegisterPayload) => {// we have to import SubmitHandler, with useForm
+  const saveCustomer2: SubmitHandler<RegisterPayload> = (data: RegisterPayload) => {// we have to import SubmitHandler, with useForm
     console.log("22222222")
-      console.log("data1: ",data)
-      data.role= "ROLE_CUSTOMER"
-      console.log("data2: ",data)
+    console.log("data1: ", data)
+    data.role = "ROLE_CUSTOMER"
+    console.log("data2: ", data)
 
-      AuthService.register(data).then((Response: any) => {
-        window.alert(Response.data+"! Please signin to rent a car!");
-        navigator("/login");
-        window.location.reload();
-  
-      }).catch(e => {
-        
-        window.alert("Error: " + e.response.data)
-  
-        console.log("Error: " + e)
-      })
-      
+    AuthService.register(data).then((Response: any) => {
+      window.alert(Response.data + "! Please signin to rent a car!");
+      navigator("/login");
+      window.location.reload();
+
+    }).catch(e => {
+
+      window.alert("Error: " + e.response.data)
+
+      console.log("Error: " + e)
+    })
+
   }
 
-  const save3:SubmitHandler<FormData> = () =>{
+  const save3: SubmitHandler<FormData> = () => {
     console.log("333333")
   }
- 
+
   return (
-  
+
     <div>
       <form onSubmit={handleSubmit(saveCustomer2)}>
-        <div  >
-          <label >Username:
-            <input type="text" className="form-control"
-              {...register("username", { required: true, minLength:3, maxLength:20 })}></input>          
-          </label>
-          {errors.username && <p style={{color:"red"}} >This field is required, minLength:3, maxLength:20</p>}
-        </div>
-        <div  >
-          <label >Password:
-            <input type="password" className="form-control"
-              {...register("password", { required: true, minLength:4, maxLength:20 })}></input> 
-          </label>
-          {errors.password && <p style={{color:"red"}}>This field is required, minLength:4, maxLength:20</p>}
-        </div>
-        <div  >
-          <label >Email:
-            <input type="email" className="form-control"
-              {...register("email", { required: true })}></input> 
-          </label>
-          {errors.email && <p style={{color:"red"}}>This field is required!</p>}
+        <br></br>
+        <div className="signup-div" >
+          <label className="signup-form-label" htmlFor="username">* Username: </label>
+          <input id="username" type="text" 
+            {...register("username", { required: true, minLength: 3, maxLength: 20 })}></input>
+
+          {errors.username && <p  className="form-warn" style={{color:"red"}}>This field is required, minLength:3, maxLength:20</p>}
         </div>
 
+
+        <div className="signup-div">
+          <label className="signup-form-label" htmlFor="firstname">First Name: </label>
+          <input id="firstname" type="text" 
+            {...register("firstname")}></input>
+
+        </div>
+
+        <div className="signup-div">
+          <label className="signup-form-label" htmlFor="lastname" >Last Name:</label>
+
+          <input id="lastname" type="text" 
+            {...register("lastname")}></input>
+
+        </div>
+
+        <div className="signup-div" >
+          <label className="signup-form-label" htmlFor="email">* Email: </label>
+          <input id="email" type="email" 
+            {...register("email", { required: true })}></input>
+
+          {errors.email && <p className="form-warn" style={{color:"red"}}>This field is required!</p>}
+        </div>
+
+        <div className="signup-div" >
+          <label className="signup-form-label" htmlFor="password">* Password: </label>
+          <input id="password" type="password" 
+            {...register("password", { required: true, minLength: 4, maxLength: 20 })}></input>
+
+          {errors.password && <p className="form-warn" style={{color:"red"}}>This field is required, minLength:4, maxLength:20</p>}
+        </div>
+        <div className="signup-div" ><p style={{
+          textAlign: "left", position: "absolute",
+          left: "37.5vw",
+          width: "10vw",
+          marginTop:"0.5vw"
+        }}>* Required Field</p></div>
+
+
+
         {/* <button className='btn btn-primary' onClick={e =>saveCustomer(e)}>Submit</button> */}
-        <input type="submit" />
+        <input className="btn btn-primary" type="submit" />
 
       </form>
     </div>

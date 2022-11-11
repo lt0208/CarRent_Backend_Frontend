@@ -43,11 +43,10 @@ const ListRequestsByCustomer = () => {
     return (
         <div className="container">
             <div className="container" >
-                <h4>Welcome, <strong>{customer.firstName} {customer.lastName}</strong></h4>
-                <h4>Email: {customer.email}</h4> 
-              
-                <h4>Current credit: {customer.credit}</h4>
-                <Link className='btn btn-primary' to={`/update-customer/${customer.id}`}>Update Profile</Link>
+                <h4>Welcome, <strong>{customer.firstname} {customer.lastname}</strong> ,completed rentals: {customer.completedRentals}</h4>
+                <h4></h4>
+                <Link className='btn btn-primary' to={`/update-customer/${customer.id}`}>Update Profile</Link> {'   '}
+                <Link className='btn btn-info' to={`/all-cars/:available`}>Select Car</Link>
 
             </div>
             <div> {<ListRequestsComponent isCustomer={true} requests={requests} />} </div>
